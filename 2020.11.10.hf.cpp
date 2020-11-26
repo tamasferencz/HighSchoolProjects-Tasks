@@ -11,7 +11,7 @@ int main()
     cout << "s=";
     cin.getline(s, 100);
 
-    cout << "Adj meg egy karaktert(k1): ";
+    cout << "Adja meg a karaktert(k1): ";
     cin >> k1;
     cout << "Adj meg egy masik karaktert(k2): ";
     cin >> k2;
