@@ -5,22 +5,39 @@ using namespace std;
 
 int main()
 {
-    char s[102], ut;
-    int i = strlen(s) - 1, x;
+    char s[100], szo[50];
+    int i = 0, j, z;
 
-    cout << "s:";
-    cin.getline(s, 102);
+    z = i;
 
-    while (i != 0)
+    cout << "s=";
+    cin.getline(s, 100);
+
+    while (i < strlen(s))
     {
-        while (s[i] != ' ' && s[i] != '\0')
+        z = 0;
+        j = 0;
+        strcpy(szo, "");
+        while (s[z] != ' ' && s[z] != '\0')
         {
 
-            ut = s[i];
+            if (z == 0)
+            {
+                szo[j] = toupper(s[i]);
+            }
+            else
+            {
+                szo[j] = tolower(s[i]);
+            }
+            j++;
+            z++;
+            i++;
         }
-        i--;
+        j++;
+        szo[j] = '\0';
+        i++;
+        cout << szo << " ";
     }
-    cout << "s= " << s << endl;
 
     return 0;
 }
