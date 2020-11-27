@@ -6,35 +6,31 @@ using namespace std;
 int main()
 {
     char s[100], szo[50];
-    int i = 0, j, z;
-
-    z = i;
+    int i = 0, z;
 
     cout << "s=";
     cin.getline(s, 100);
 
     while (i < strlen(s))
     {
-        z = 0;
-        j = 0;
         strcpy(szo, "");
-        while (s[z] != ' ' && s[z] != '\0')
-        {
+        z = 0;
 
+        while (s[i] != ' ' && s[i] != '\0')
+        {
             if (z == 0)
             {
-                szo[j] = toupper(s[i]);
+                szo[z] = toupper(s[i]);
             }
             else
             {
-                szo[j] = tolower(s[i]);
+                szo[z] = tolower(s[i]);
             }
-            j++;
+            //cout << "z[" << z << "]=" << s[i] << endl;
             z++;
             i++;
         }
-        j++;
-        szo[j] = '\0';
+        szo[z] = '\0';
         i++;
         cout << szo << " ";
     }
