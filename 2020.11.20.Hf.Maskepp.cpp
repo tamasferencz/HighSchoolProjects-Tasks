@@ -8,7 +8,7 @@ int main()
     char s[102], ut;
     int i = strlen(s) - 1, x;
 
-    cout << "s=";
+    cout << "s:";
     cin.getline(s, 102);
 
     while (i != 0)
