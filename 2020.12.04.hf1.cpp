@@ -15,6 +15,7 @@ int main()
         {
             s[i] = s[i + 1];
             s[n - i] = s[n - i - 1];
+            cout << "s[" << i << "]= " << s[i] << endl;
         }
 
     cout << s << endl;
