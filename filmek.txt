@@ -1,0 +1,26 @@
+Jumanji - A kovetkezo szint
+Jake Kasdan
+2019 12 4
+Kaland/Vigjatek
+2 3
+50
+7
+nem
+
+Zold konyv
+Peter Farrelly
+2018 9 11
+Filmdrama/Tragikomedia
+2 10
+70.25
+8.2
+igen
+
+Bosszuallok - Vegjatek
+Joe Russo
+2019 4 26
+Akcio/Sci-fi
+3 2
+44.9
+8.4
+nem
