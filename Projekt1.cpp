@@ -11,7 +11,7 @@ es egy magan ertekeles, ami azt tartalmazza, hogy, Hany szazalekosa fejlodese(eg
 
 using namespace std;
 
-#define MAX_DIAK_SZAM 35
+#define MAX_DIAK_SZAM 4
 
 struct ertekeles
 {
@@ -68,6 +68,7 @@ struct diak
     unsigned short index;
     char nev[50];
     ertekeles ertekeles;
+    float sulyozottAtlag;
 };
 
 float sulyozottAtlag(ertekeles ertekeles, ertekelesSuly suly)
@@ -83,6 +84,11 @@ void diakKiirasa(diak diak)
     cout << "   Tanari ertekelese(1-3):     " << diak.ertekeles.tanar << endl;
     cout << "   Diakok ertekelese(1-10):    " << diak.ertekeles.diak << endl;
     cout << "   Fejlodes(%):                " << diak.ertekeles.fejlodes << endl;
+    if (diak.sulyozottAtlag > 0)
+    {
+        cout << "-------------------------------------------------------------------" << endl;
+        cout << "   Sulyozott atlag(%):         " << diak.sulyozottAtlag << endl;
+    }
     cout << "-------------------------------------------------------------------" << endl;
 }
 
@@ -126,7 +132,29 @@ void legjobbLeggyengebbDiak(diak *diakok, unsigned short diakokSzama, ertekelesS
     cout << "+--------------------------------------------+" << endl;
 }
 
-void diakokAtlagszamolasaEsListazasa(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly)
+void diakokSorrendberakas(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly)
+{
+    if (!helyesBemenet(diakokSzama, suly))
+    {
+        cout << "Nincsenek diakok / Suly, elobb olvasd be oket!" << endl;
+        return;
+    }
+
+    for (int i = 1; i < diakokSzama; i++)
+    {
+        for (int j = 0; j < (diakokSzama - 1); j++)
+        {
+            if (diakok[j].sulyozottAtlag > diakok[j + 1].sulyozottAtlag)
+            {
+                diak x = diakok[j];
+                diakok[j] = diakok[j + 1];
+                diakok[j + 1] = x;
+            }
+        }
+    }
+}
+
+void diakokAtlagszamolasa(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly)
 {
     if (!helyesBemenet(diakokSzama, suly))
     {
@@ -147,12 +175,11 @@ void diakokAtlagszamolasaEsListazasa(diak *diakok, unsigned short diakokSzama, e
 
     for (int i = 0; i < diakokSzama; i++)
     {
-        cout << diakok[i].index
-             << ". diak "
-             << diakok[i].nev
-             << ", sulyozott atlaga: "
-             << sulyozottAtlag(diakok[i].ertekeles, suly) << endl;
+        diakok[i].sulyozottAtlag = sulyozottAtlag(diakok[i].ertekeles, suly);
     }
+    cout << "+--------------------------------------------+" << endl;
+    cout << "| Atlagok kiszamolva " << endl;
+    cout << "+--------------------------------------------+" << endl;
 }
 
 void diakokListazasa(diak *diakok, unsigned short diakokSzama)
@@ -192,6 +219,8 @@ diak diakBelvasasa(fstream *be, unsigned short index)
     diak diak;
 
     diak.index = index + 1;
+    diak.sulyozottAtlag = 0;
+
     be->getline(diak.nev, 50);
     *be >> diak.ertekeles.atlag;
     *be >> diak.ertekeles.tanar;
@@ -221,6 +250,7 @@ unsigned short diakokBeolvasasa(diak *diakok)
 
 char menuKiirasa()
 {
+    cout << endl;
     cout << "+--------------------------------------------+" << endl;
     cout << "|   DIAKOK ERTEKELESE MASKEPP (c).2021, FT   |" << endl;
     cout << "+--------------------------------------------+" << endl;
@@ -228,8 +258,9 @@ char menuKiirasa()
     cout << "| 1. - Diakkok beolvasasa allomanybol        |" << endl;
     cout << "| 2. - A diakok listazasa                    |" << endl;
     cout << "| 3. - Sulyok bekerese                       |" << endl;
-    cout << "| 4. - Sulyozott atlagok listazasa           |" << endl;
+    cout << "| 4. - Sulyozott atlagok szamolasa           |" << endl;
     cout << "| 5. - Legjobb, leggyengebb diak             |" << endl;
+    cout << "| 6. - Diakok sorrendbe rakasa               |" << endl;
     cout << "+--------------------------------------------+" << endl;
     cout << "| x. - Kilepes                               |" << endl;
     cout << "+--------------------------------------------+" << endl;
@@ -262,10 +293,13 @@ int main()
             cout << "Suly beolvasva! " << endl;
             break;
         case '4':
-            diakokAtlagszamolasaEsListazasa(diakok, diakokSzama, suly);
+            diakokAtlagszamolasa(diakok, diakokSzama, suly);
             break;
         case '5':
             legjobbLeggyengebbDiak(diakok, diakokSzama, suly);
+            break;
+        case '6':
+            diakokSorrendberakas(diakok, diakokSzama, suly);
             break;
         }
     } while (menupont != 'x');
