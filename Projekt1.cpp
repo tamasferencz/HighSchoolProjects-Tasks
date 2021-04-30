@@ -1,17 +1,10 @@
-/*Egy osztalyba minden tanulo feladatot kap, hogy a ballagasa elott egy vegso osszegzest csinaljon, amelyben benne
-kell legyen a tanulmanyi eredmenye(atlagot kap), a tanaroktol kapott ertekeles (diak viselkedese
-szempontja szerint(JO, KOZEPES, ROSSZ)), a diakoktol egy ertekeles 1-10-es skalan(kozossegi szerepet mennyire toltotte be)
-es egy magan ertekeles, ami azt tartalmazza, hogy, Hany szazalekosa fejlodese(egy ertek). A diak egy pontot fog kapni
-1- a minimum, 100- a maximum.
-*/
-
 #include <string>
 #include <iostream>
 #include <fstream>
 
 using namespace std;
 
-#define MAX_DIAK_SZAM 4
+#define MAX_DIAK_SZAM 4 // Ebben a sorban megadjuk, hogy maximum mennyi tanulót használhat a program a szöveges állományból
 
 struct ertekeles
 {
@@ -29,7 +22,7 @@ struct ertekelesSuly
     unsigned short fejlodes;
 };
 
-ertekeles minErtekeles()
+ertekeles minErtekeles() // A minimum értékelést adjuk meg
 {
     ertekeles ertekeles;
     ertekeles.atlag = 5;
@@ -38,7 +31,7 @@ ertekeles minErtekeles()
     ertekeles.fejlodes = 0;
     return ertekeles;
 }
-ertekeles maxErtekeles()
+ertekeles maxErtekeles() // A maximum értékelést adjuk meg
 {
     ertekeles ertekeles;
     ertekeles.atlag = 10;
@@ -71,12 +64,12 @@ struct diak
     float sulyozottAtlag;
 };
 
-float sulyozottAtlag(ertekeles ertekeles, ertekelesSuly suly)
+float sulyozottAtlag(ertekeles ertekeles, ertekelesSuly suly) // Ebben a függvényben a képletet adjuk meg, amit majd használni fog a program a súlyozottátlagszámításnál
 {
     return (ertekeles.atlag * suly.atlag + ertekeles.diak * suly.diak + ertekeles.fejlodes * suly.fejlodes + suly.tanar) / (suly.atlag + suly.diak + suly.fejlodes + suly.tanar);
 }
 
-void diakKiirasa(diak diak)
+void diakKiirasa(diak diak) // A diák kiírásának függvénye
 {
 
     cout << diak.index << ". diak " << diak.nev << ", ertekelesei. \n";
@@ -92,11 +85,11 @@ void diakKiirasa(diak diak)
     cout << "-------------------------------------------------------------------" << endl;
 }
 
-bool helyesBemenet(unsigned short diakokSzama, ertekelesSuly suly)
+bool helyesBemenet(unsigned short diakokSzama, ertekelesSuly suly) //Itt azt ellenőrizzük, hogy minden bemenet be lett-e olvasva
 {
     return diakokSzama > 0 && !zeroSuly(suly);
 }
-void legjobbLeggyengebbDiak(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly)
+void legjobbLeggyengebbDiak(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly) //Min/Max számítás
 {
     if (!helyesBemenet(diakokSzama, suly))
     {
@@ -132,7 +125,7 @@ void legjobbLeggyengebbDiak(diak *diakok, unsigned short diakokSzama, ertekelesS
     cout << "+--------------------------------------------+" << endl;
 }
 
-void diakokSorrendberakas(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly)
+void diakokSorrendberakas(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly) // Növekvő sorrendbe rakja ez a függvény a diákokat
 {
     if (!helyesBemenet(diakokSzama, suly))
     {
@@ -140,6 +133,7 @@ void diakokSorrendberakas(diak *diakok, unsigned short diakokSzama, ertekelesSul
         return;
     }
 
+    //BUBBLE SORT
     for (int i = 1; i < diakokSzama; i++)
     {
         for (int j = 0; j < (diakokSzama - 1); j++)
@@ -154,7 +148,7 @@ void diakokSorrendberakas(diak *diakok, unsigned short diakokSzama, ertekelesSul
     }
 }
 
-void diakokAtlagszamolasa(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly)
+void diakokAtlagszamolasa(diak *diakok, unsigned short diakokSzama, ertekelesSuly suly) // Kiszámolja a maximum/minimum pontszámokat a megadott súlyokkal, majd kiszámolja az átlagot
 {
     if (!helyesBemenet(diakokSzama, suly))
     {
@@ -182,7 +176,7 @@ void diakokAtlagszamolasa(diak *diakok, unsigned short diakokSzama, ertekelesSul
     cout << "+--------------------------------------------+" << endl;
 }
 
-void diakokListazasa(diak *diakok, unsigned short diakokSzama)
+void diakokListazasa(diak *diakok, unsigned short diakokSzama) //Összes diák listázása/kiírása
 {
     if (diakokSzama == 0)
     {
@@ -197,7 +191,7 @@ void diakokListazasa(diak *diakok, unsigned short diakokSzama)
     }
 }
 
-ertekelesSuly sulyBeolvasas()
+ertekelesSuly sulyBeolvasas() // A függvény bekéri a súlyokat
 {
     ertekelesSuly suly;
 
@@ -214,7 +208,7 @@ ertekelesSuly sulyBeolvasas()
     return suly;
 }
 
-diak diakBelvasasa(fstream *be, unsigned short index)
+diak diakBelvasasa(fstream *be, unsigned short index) // A szöveges állományból beolvassa a kellő információkat (1 diákról)
 {
     diak diak;
 
@@ -231,7 +225,7 @@ diak diakBelvasasa(fstream *be, unsigned short index)
     return diak;
 }
 
-unsigned short diakokBeolvasasa(diak *diakok)
+unsigned short diakokBeolvasasa(diak *diakok) // Összes szükséges diák beolvasása
 {
     fstream be("diak.txt");
     unsigned short n = 0;
@@ -248,6 +242,7 @@ unsigned short diakokBeolvasasa(diak *diakok)
     return n;
 }
 
+//A menü kiírásával foglalkozik ez a függvény, ami a console-ba fog megjelenni.
 char menuKiirasa()
 {
     cout << endl;
@@ -276,6 +271,7 @@ int main()
     ertekelesSuly suly = zeroSuly();
     unsigned short diakokSzama = 0;
 
+    //A menüben jelennek meg az a lehetőségek, amelyek választhatóak majd a console-ba.
     do
     {
         menupont = menuKiirasa();
