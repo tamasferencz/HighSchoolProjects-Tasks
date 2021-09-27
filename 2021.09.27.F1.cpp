@@ -18,19 +18,14 @@ char *getColor(int sz)
     {
     case 2:
         return "ZOLD";
-        break;
     case 3:
         return "KEK";
-        break;
     case 6:
         return "PIROS";
-        break;
     case 7:
         return "SARGA";
-        break;
     case 13:
         return "LILA";
-        break;
     default:
         return "Nem szin!";
     }
@@ -65,7 +60,7 @@ int main()
 {
     int state;
 
-    cout << "Adj meg egy szint: ";
+    cout << "Adjon meg egy szint kodot: ";
     cin >> state;
     cout << getColor(state) << endl;
 
