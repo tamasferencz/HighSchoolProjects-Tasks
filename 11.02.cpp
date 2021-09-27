@@ -14,8 +14,7 @@ int main()
     cin >> n;
     cout << "m=";
     cin >> m;
-
-    int v[n][m];
+    c int v[n][m];
 
     srand(time(0));
     for (int i = 0; i < n; i++)
