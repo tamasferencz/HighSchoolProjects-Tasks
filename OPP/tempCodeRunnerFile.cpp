@@ -1,1 +1,1 @@
-17
+termek a_kezelo;
